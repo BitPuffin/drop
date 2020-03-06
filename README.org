@@ -1,0 +1,4 @@
+#+TITLE: Drop
+
+A small toy forth-like language made in python.
+Making it for fun and to refresh my python knowledge.
