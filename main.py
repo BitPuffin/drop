@@ -21,10 +21,8 @@ class ProgramWord:
 
     def run(self):
         for t in self.tokens:
-            if t.isnumeric():
-                stack.append(int(t))
-            else:
-                words[t].run()
+            interpret_token(t)
+
 
 def add_word(name, word): words[name] = word
 
@@ -52,6 +50,12 @@ with open(filename, 'r') as script:
         tokens += line.split()
 
 ## Evaluate script
+def interpret_token(t):
+    if t.isnumeric():
+        stack.append(int(t))
+    else:
+        words[t].run()
+
 tokiter = iter(tokens)
 worddef = False
 new_word_name = None
@@ -75,9 +79,7 @@ while True:
                     new_word_name = next(tokiter)
                 except StopIteration:
                     raise "Unterminated Word"
-            elif tok.isnumeric():
-                stack.append(int(tok))
             else:
-                words[tok].run()
+                interpret_token(tok)
     except StopIteration:
         break
