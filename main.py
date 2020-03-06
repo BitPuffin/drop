@@ -1,5 +1,6 @@
 import sys
 
+# Program environment
 stack = []
 words = {}
 
@@ -27,6 +28,8 @@ class ProgramWord:
 
 def add_word(name, word): words[name] = word
 
+## Define built in words
+
 def _word_add(): stack.append(stack.pop() + stack.pop())
 add_word('+', BuiltinWord(_word_add))
 
@@ -41,12 +44,14 @@ add_word('/', BuiltinWord(_word_div))
 def _word_print(): print(stack.pop())
 add_word('print', BuiltinWord(_word_print))
 
+## read script
 filename = sys.argv[1]
 tokens = []
 with open(filename, 'r') as script:
     for line in script:
         tokens += line.split()
 
+## Evaluate script
 tokiter = iter(tokens)
 worddef = False
 new_word_name = None
