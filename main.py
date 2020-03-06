@@ -5,8 +5,6 @@ stack = []
 words = {}
 
 class BuiltinWord:
-    fun = None
-
     def __init__(self, python_fun):
         self.fun = python_fun
 
@@ -14,8 +12,6 @@ class BuiltinWord:
         self.fun()
 
 class ProgramWord:
-    tokens = []
-
     def __init__(self, toks):
         self.tokens = toks
 
