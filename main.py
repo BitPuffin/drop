@@ -45,8 +45,32 @@ with open(filename, 'r') as script:
     for line in script:
         tokens += line.split()
 
+inside_if = False
+if_is_false = False
+inside_else = False
+
 ## Evaluate script
 def interpret_token(t):
+    global inside_if, if_is_false, inside_else
+    if (inside_if or inside_else) and t == 'then':
+        inside_if = inside_else = False
+        return
+    if inside_if:
+        if t == 'else':
+            inside_if = False
+            inside_else = True
+        elif not if_is_false:
+            get_value_or_run(t)
+    elif inside_else:
+        if if_is_false:
+            get_value_or_run(t)
+        else:
+            if t == 'else':
+                inside_else = False
+    else:
+        get_value_or_run(t)
+
+def get_value_or_run(t):
     if t.isnumeric():
         stack.append(int(t))
     else:
@@ -56,6 +80,7 @@ tokiter = iter(tokens)
 worddef = False
 new_word_name = None
 new_word = []
+
 while True:
     try:
         tok = next(tokiter)
@@ -75,6 +100,10 @@ while True:
                     new_word_name = next(tokiter)
                 except StopIteration:
                     raise "Unterminated Word"
+            elif tok == 'if':
+                val = stack.pop()
+                inside_if = True
+                if_is_false = val == 0
             else:
                 interpret_token(tok)
     except StopIteration:
