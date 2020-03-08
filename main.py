@@ -35,6 +35,33 @@ def _word_div():
     stack.append(stack.pop() / div)
 add_word('/', BuiltinWord(_word_div))
 
+def _word_eq(): stack.append(stack.pop() == stack.pop())
+add_word('=', BuiltinWord(_word_eq))
+
+def _word_less_than():
+    b = stack.pop()
+    a = stack.pop()
+    stack.append(a < b)
+add_word('<', BuiltinWord(_word_less_than))
+
+def _word_less_or_eq():
+    b = stack.pop()
+    a = stack.pop()
+    stack.append(a <= b)
+add_word('<=', BuiltinWord(_word_less_or_eq))
+
+def _word_greater_than():
+    b = stack.pop()
+    a = stack.pop()
+    stack.append(a > b)
+add_word('>', BuiltinWord(_word_greater_than))
+
+def _word_greater_or_eq():
+    b = stack.pop()
+    a = stack.pop()
+    stack.append(a >= b)
+add_word('>=', BuiltinWord(_word_greater_or_eq))
+
 def _word_print(): print(stack.pop())
 add_word('print', BuiltinWord(_word_print))
 
